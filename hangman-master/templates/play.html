@@ -29,7 +29,7 @@
       {% endfor %}
     </h1>
     <h3>
-      {% if game.won %} You won! {% else %} You lost :-( {% endif %}
+      {% if game.won %} You won! {% else %} You lost :-( {% endif %} <!--Win/Loss messages-->
     </h3>
     <p>
       <a class="btn btn-default" href="{{ url_for('home') }}">Home</a>
