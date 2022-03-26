@@ -14,7 +14,6 @@ import flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
-#app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False # Debug
 
 # Database
 
