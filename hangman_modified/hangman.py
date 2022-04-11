@@ -29,6 +29,7 @@ class Game(db.Model):
     tried = db.Column(db.String(50), default='')
     player = db.Column(db.String(50))
     try_again = 0
+    word_errors = 0
 
     def __init__(self, player):
         self.player = player
@@ -56,7 +57,20 @@ class Game(db.Model):
             self.try_again = 1
             db.session.commit()
 
+    def try_word(self, guess):
+        if not self.finished:
+            if guess == self.word:
+                self.try_again = 0
+                self.tried += set(self.word)
+                db.session.commit()
+            
+            else:
+                self.try_again = 1
+                self.word_errors += 1
+                self.tried += i
+                db.session.commit()
 
+    
     # Game status
 
     @property
@@ -123,6 +137,8 @@ def play(game_id):
         letter = flask.request.form['letter'].upper()
         if len(letter) == 1 and letter.isalpha():
             game.try_letter(letter)
+        """elif len(letter) == len(db.word) and letter.isalpha():
+            game.try_word(letter)"""
 
     if flask.request.is_xhr:
         return flask.jsonify(current=game.current,
