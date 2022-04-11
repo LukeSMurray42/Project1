@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      #footer {
+          position: fixed;
+          padding: 10px 10px 0px 10px;
+          bottom: 0;
+          width: 100%;
+          height: 40px;
+          background: black;
+      }
+
+      #buttons {
+          background-color: transparent;
+          border-color: black;
+      }
+      #btn-group button {
+          background-color: #04AA6D;
+          border: 1px solid green;
+          color: white;
+          padding: 10px 24px;
+          cursor: pointer;
+          width: 50%;
+          display: block;
+      }
+
+      body{
+    background-image: url('http://i.stack.imgur.com/kx8MT.gif');
+    background-size: cover;
+    }
+  </style>
+    <title>Hangman game</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='main.css') }}">
+  </head>
+  <body>
+    <div class="container text-center">
+      <div class="container">
+        <div class="popup" id="credits" style="display: block;">
+          <div id="credits1" class="subCredits" style>
+            <div class="whiteBox center supercenter" style="display: none; position: absolute; top: 45%; right: 75%;" tabindex="0" onclick="page -= 1; loadCredits()"></div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <img src="{{url_for('static', filename='target.png')}}" width="600" height="70">
+      <div class="row vspace">
+        <div class="col-md-6 col-md-offset-3">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <div class="menu" style="position:absolute; top: 1.2%; left: 0.7%; width: 12%;">
+      <a href="{{ url_for('main_menu') }}"><img class="gdButton" src="{{ url_for('static', filename='main.png') }}" width="30%"></a>
+    </div>
+
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+    {% block bottom %}{% endblock %}
+  </body>
+
+  <footer role="contentinfo" id="footer">
+    <div id="footer">
+      <div class="bg pt-8 text-center border-t border-gray-700">
+        <small style="color: white;">Version 0.3. 2022-04-04 21:34:27. Created by Group 9. Team Members: Preran Apinakoppa, Christopher Morton, Luke Murray, Purva Patil, Marilyn Tek and Franchesca Samonte.</small>
+      </div>
+    </div>
+
+  </footer>
+  <div class="menu" style="position:absolute; top: 1.2%; left: 0.7%; width: 12%;">
+    <a href="{{ url_for('main_menu') }}"><img class="gdButton" src="{{ url_for('static', filename='main.png') }}" width="30%"></a>
+  </div>
+  <div class="menu" style="position:absolute; top: 1.2%; left: 5.2%; width: 12%;">
+    <a href="{{ url_for('main_menu') }}"><img class="gdButton" src="{{ url_for('static', filename='help.png') }}" width="30%"></a>
+  </div>
+</html>
