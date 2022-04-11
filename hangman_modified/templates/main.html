@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -10,10 +9,20 @@
       .mySlides1{display: none}
       img {vertical-align: middle;}
 
-      body{
+      body {
         background-image: url('http://i.stack.imgur.com/kx8MT.gif');
         background-size: cover;
       }
+
+	  audio {
+	  	position: absolute;
+		top: 10px;
+		right: 0px;
+	  }
+
+	  audio::-webkit-media-controls-panel {
+		background-color: #56AEFF;
+	  }
 
       .modal {
         display: none; /* Hidden by default */
@@ -55,8 +64,16 @@
 
 
   </style>
-    <title>Hangman Game</title>
-    <!-- Bootstrap -->
+    <title>Hangman Game Group 9</title>
+	
+	<!-- Background Music (MODIFICATION - change 'hidden' to 'controls' to also show player) -->
+	<audio hidden autoplay loop>
+			<source src="/static/music/ChillDay.mp3" type="audio/mpeg"/>
+			Your browser cannot play this audio.
+	</audio>
+    
+
+	<!-- Bootstrap -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet"
