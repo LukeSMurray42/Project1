@@ -21,13 +21,9 @@ def random_pk():
 
 def random_word():
     words = [line.strip() for line in open('words.txt') if len(line) > 10]
-<<<<<<< HEAD
-    return random.choice(words).upper()
-=======
     correct_word = random.choice(words).upper()
     #print("Correct Word: {}".format(correct_word)) # Debug
     return correct_word
->>>>>>> T9-46-modification-5-guess-the-word
 
 class Game(db.Model):
     pk = db.Column(db.Integer, primary_key=True, default=random_pk)
@@ -35,10 +31,7 @@ class Game(db.Model):
     tried = db.Column(db.String(50), default='')
     player = db.Column(db.String(50))
     try_again = 0
-<<<<<<< HEAD
-=======
     words_guessed = []
->>>>>>> T9-46-modification-5-guess-the-word
 
     def __init__(self, player):
         self.player = player
@@ -58,10 +51,7 @@ class Game(db.Model):
     # Play
 
     def try_letter(self, letter):
-<<<<<<< HEAD
-=======
         #print("letter found: {}".format(letter)) # Debug
->>>>>>> T9-46-modification-5-guess-the-word
         if not self.finished and letter not in self.tried:
             self.tried += letter
             self.try_again = 0
@@ -70,9 +60,7 @@ class Game(db.Model):
             self.try_again = 1
             db.session.commit()
 
-<<<<<<< HEAD
 
-=======
     # Guess the word feature (modification)
     def try_word(self, guess):
         # print("word found: {}".format(guess)) # Debug
@@ -101,7 +89,6 @@ class Game(db.Model):
             db.session.commit()
 
     
->>>>>>> T9-46-modification-5-guess-the-word
     # Game status
 
     @property
@@ -166,16 +153,11 @@ def play(game_id):
 
     if flask.request.method == 'POST':
         letter = flask.request.form['letter'].upper()
-<<<<<<< HEAD
-        if len(letter) == 1 and letter.isalpha():
-            game.try_letter(letter)
-=======
         word_guess = flask.request.form['word_guess'].upper()
         if len(letter) == 1 and letter.isalpha():
             game.try_letter(letter)
         elif len(word_guess) >= 1 and word_guess.isalpha():
             game.try_word(word_guess)
->>>>>>> T9-46-modification-5-guess-the-word
 
     if flask.request.is_xhr:
         return flask.jsonify(current=game.current,
