@@ -9,7 +9,7 @@ import time
 
 app = flask.Flask(__name__)
 
-## Database
+# Database
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hangman.db'
 db = SQLAlchemy(app)
@@ -22,12 +22,34 @@ def random_pk():
 def random_word():
     words = [line.strip() for line in open('words.txt') if len(line) > 10]
     correct_word = random.choice(words).upper()
-    #print("Correct Word: {}".format(correct_word)) # Debug
     return correct_word
+
+def random_easy():
+    print("difficulty is easy")
+    words = [line.strip() for line in open('words.txt') if len(line) > 3 and len(line) <= 5]
+    correct_word = random.choice(words).upper()
+    print("Correct word: {}".format(correct_word))
+    return correct_word
+    
+def random_medium():    
+    print("difficulty is medium")
+    words = [line.strip() for line in open('words.txt') if len(line) > 6 and len(line) <= 10 and len(set(line)) >= 4]
+    correct_word = random.choice(words).upper()
+    print("Correct word: {}".format(correct_word))
+    return correct_word
+    
+def random_hard():
+    print("difficulty is hard")
+    words = [line.strip() for line in open('words.txt') if len(line) > 10 and len(set(line)) >= 6]
+    correct_word = random.choice(words).upper()
+    print("Correct Word: {}".format(correct_word)) # Debug
+    return correct_word
+
 
 class Game(db.Model):
     pk = db.Column(db.Integer, primary_key=True, default=random_pk)
-    word = db.Column(db.String(50), default=random_word)
+    word = db.Column(db.String(50), default=random.choice([random_medium, random_easy, random_hard]))
+    #difficulty = db.Column(db.String(50))
     tried = db.Column(db.String(50), default='')
     player = db.Column(db.String(50))
     try_again = 0
@@ -142,6 +164,7 @@ def mp():
 @app.route('/spplay')
 def new_game():
     player = flask.request.args.get('player')
+    #difficulty = flask.request.args.get('difficulty')
     game = Game(player)
     db.session.add(game)
     db.session.commit()
@@ -171,5 +194,6 @@ def play(game_id):
 # Main
 
 if __name__ == '__main__':
+    random.seed()
     app.run(host='0.0.0.0', debug=True)
 

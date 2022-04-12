@@ -1,0 +1,97 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<style>
+  #sidebar {
+    width: 180px;
+    padding: 10px;
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    background: #eee;
+    color: #666;
+  }
+</style>
+
+
+  <svg width="250" height="230" id="drawing">
+    <!-- Structure -->
+    <line y1="220" y2="220" x1="10" x2="120" stroke="white"/>
+    <line y1="10" y2="220" x1="65" x2="65" stroke="white"/>
+    <line y1="10" y2="10" x1="65" x2="175" stroke="white"/>
+    <line y1="10" y2="40" x1="175" x2="175" stroke="white"/>
+
+    <!-- Hangman -->
+    <g id="hangman-drawing">
+      <circle cx="175" cy="55" r="15" stroke="white"/>
+      <ellipse cx="175" cy="115" rx="20" ry="45" stroke="white"/>
+      <line y1="150" y2="190" x1="162" x2="140" stroke="white"/>
+      <line y1="150" y2="190" x1="188" x2="210" stroke="white"/>
+      <line y1="80" y2="40" x1="162" x2="140" stroke="white"/>
+      <line y1="80" y2="40" x1="188" x2="210" stroke="white"/>
+    </g>
+  </svg>
+
+  {% if game.finished %}
+    <h1>
+      {% for letter in game.word %}
+        <span class="text-{% if letter in game.tried %}success{% else %}danger{% endif %}" style="color: lime;">
+          {{ letter }}
+        </span>
+      {% endfor %}
+    </h1>
+    <h3 style="color: aqua;">
+      {% if game.won %} You won! {% else %} You lost :-( {% endif %}
+    </h3>
+    <p>
+      <a class="btn btn-default" href="{{ url_for('solo') }}">Home</a>
+      <a class="btn btn-primary"
+         href="{{ url_for('new_game') }}?player={{ game.player }}">
+        Play again
+      </a>
+    </p>
+  {% else %}
+    <h1 id="current" class="spaced">{{ game.current }}</h1>
+  {% endif %}
+
+    <h2 class="vspace" id="errors" style="color: white;">
+      Errors ({{ game.errors|length }}/6):
+      <span class="text-danger spaced" style="color: orangered;">{{ game.errors }}</span>
+    </h2>
+
+  {% if not game.finished %}
+    <form method="post" id="letter-form" class="form-inline vspace">
+      
+      <div class="form-group">
+        <small style="color: white;">Guess a letter: </small>
+        <input class="input-lg text-uppercase" maxlength="1" size="any"
+
+               name="letter" autocomplete="off" autofocus >
+        <button type="submit" class="btn btn-default btn-lg">Try letter</button>
+      </div>    
+      <br>
+      
+      <div class="form-group">
+        <small style="color: white;">Guess the word: </small>
+        <input class="input-lg text-uppercase" maxlength="any" size="any"
+               name="word_guess" autocomplete="off" autofocus>
+        <button type="submit" class="btn btn-default btn-lg">Try word</button>
+      </div>
+      
+    </form>
+  {% endif %}
+
+  {% if not game.finished %}
+    <divvv>
+  {% endif %}
+  
+  <div></div>
+
+{% endblock %}
+
+{% block bottom %}
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+  <script>
+    updateDrawing('{{ game.errors }}');
+  </script>
+{% endblock %}

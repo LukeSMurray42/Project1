@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -9,21 +9,23 @@
       .mySlides1{display: none}
       img {vertical-align: middle;}
 
+      audio {
+      position: absolute;
+      bottom: 50px;
+      right: 10px;
+      }
+
+      audio::-webkit-media-controls-panel {
+      background-color: #56AEFF;
+      }
+
       body {
+        background-image: url('img_girl.jpg');
+      }
+      body{
         background-image: url('http://i.stack.imgur.com/kx8MT.gif');
         background-size: cover;
       }
-
-	  audio {
-	  	position: absolute;
-		bottom: 50px;
-		right: 10px;
-	  }
-
-	  audio::-webkit-media-controls-panel {
-		background-color: #56AEFF;
-	  }
-
       .modal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
@@ -37,7 +39,6 @@
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
       }
-
       /* Modal Content */
       .modal-content {
         background-color: #fefefe;
@@ -61,19 +62,16 @@
         text-decoration: none;
         cursor: pointer;
       }
-
-
   </style>
-    <title>Hangman Game Group 9</title>
+    <title>Hangman game</title>
 	
-	<!-- Background Music (MODIFICATION - change 'hidden' to 'controls' to also show player) -->
-	<audio controls autoplay loop>
-			<source src="/static/music/ChillDay.mp3" type="audio/mpeg"/>
-			Your browser cannot play this audio.
-	</audio>
-    
-
-	<!-- Bootstrap -->
+      <!-- Background Music (MODIFICATION - change 'hidden' to 'controls' to also show player) -->
+      <audio controls autoplay loop>
+        <source src="/static/music/ChillDay.mp3" type="audio/mpeg"/>
+        Your browser cannot play this audio.
+      </audio>
+  
+    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet"
@@ -85,24 +83,23 @@
   <body>
     <div class="container text-center" style="justify-content: center;">
       <br>
-      <img src="{{url_for('static', filename='target.png')}}" width="600" height="70">
+      <img src="{{url_for('static', filename='target_final.png')}}" width="600" height="70">
     </div>
     <br>
-    <div class="container" style="opacity: 70%;">
+    <div class="container">
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
           <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
     
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
           <div class="item active">
-            <img src="{{url_for('static', filename='Picture1.png')}}" alt="Single-Player" style="width:100%;" >
+            <img src="{{url_for('static', filename='single.png')}}" alt="Single-Player" style="width:100%;" >
             <a href="{{url_for('solo')}}">
-              <button style="position:absolute; bottom: 10.2%; right: 10.7%; width: 300px; background-color: black; border: white; height: 60px;">
+              <button style="position:absolute; bottom: 10.2%; right: 10.7%; width: 300px; background-color: blue; border: white; height: 60px;">
                 <h2 style="color:white; font-size: 18px">
                   Play Single-Player
                 </h2>
@@ -110,12 +107,14 @@
             </a>
           </div>
           <div class="item">
+            <img src="{{url_for('static', filename='Picture1.png')}}" alt="Multi-Player" style="width:100%;" >
             <a href="{{url_for('mp')}}">
-              <img src="{{url_for('static', filename='Picture1.png')}}" alt="Multiplayer" style="width:100%;" >
+              <button style="position:absolute; bottom: 10.2%; right: 10.7%; width: 300px; background-color: blue; border: white; height: 60px;">
+                <h2 style="color:white; font-size: 18px">
+                  Play Multi-Player
+                </h2>
+              </button>
             </a>
-          </div>
-          <div class="item">
-            <img src="{{url_for('static', filename='multi.png')}}" alt="Chicago" style="width:100%;" href="{{url_for('solo')}}">
           </div>
         </div>
     
@@ -140,30 +139,29 @@
   </div>
 
   <!-- Trigger/Open The Modal -->
-  <button id="btnb">How to Play</button>
+  <div class="menu, button" id="btnb" cursor="pointer;" style="position:absolute; top: 1.3%; left: 5.2%; width: 35%;"><img src="{{ url_for('static', filename='help.png') }}" width="10%"></div>
 
   <!-- The Modal -->
-  <div id="modalst" class="modal">
+  <div id="modalst" class="modal" style="color: white;">
 
     <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>Welcome to Hangman!</h3>
-      <h4 >How to Play?</h4>
+    <div class="modal-content" style="background-color: #323232;">
+      <h2 style="text-align: center;">Welcome to Hangman!</h2>
+      <h3>How to Play?</ih3>
       <h5>Enter either letters or an entire word to guess the random word.</h5>
+      <h5>Want more info? Access the full documentation <a href="https://unisydneyedu-my.sharepoint.com/:w:/g/personal/lmur8721_uni_sydney_edu_au/ERQ0gzrCR4dGn6NdpATI300BcQzzEN8Y_6udktcm48hMVA?e=JO8X3d" style="color: aqua;">here</a>.</h5>
       <div>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" style="width: 120px;">OK</button>
+        <span class="close">
+          <button type="button" class="bclose" style="width: 120px;">
+            OK
+          </button>
+        </span>
+        <small>Hangman Ver. 0.4 by Team 9 2022. </small>
       </div>
     </div>
 
   </div>
 
-
-
-
-  <div class="menu" style="position:absolute; top: 1.2%; left: 5.2%; width: 12%;">
-    <a href="{{ url_for('main_menu') }}"><img class="gdButton" src="{{ url_for('static', filename='help.png') }}" width="30%"></a>
-  </div>
 
   <script>
     // Get the modal
@@ -185,8 +183,10 @@
       modal.style.display = "none";
     }
     
+    var getmoreinfo = document.getElementById("link");
     </script>
 
+  <br>
   <footer role="contentinfo" id="footer">
     <div id="footer">
       <div class="bg pt-8 text-center border-t border-gray-700">
@@ -195,5 +195,8 @@
     </div>
 
   </footer>
+  <audio src="{{ url_for('static', filename='ChillDay.mp3') }}">
+    Your browser does not support the audio element.
+  </audio>
 
 </html>
