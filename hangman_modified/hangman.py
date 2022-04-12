@@ -1,6 +1,7 @@
 import random
 from threading import Timer
 from webbrowser import get
+import config
 
 import flask
 from flask import Flask, render_template, url_for, request, redirect, send_file
@@ -19,27 +20,29 @@ db = SQLAlchemy(app)
 def random_pk():
     return random.randint(1e9, 1e10)
 
-def random_word():
-    words = [line.strip() for line in open('words.txt') if len(line) > 10]
-    correct_word = random.choice(words).upper()
-    return correct_word
+def choose_word():
+    #level = random.randint(1,3)
+    print("current difficulty: {}".format(config.difficulty))
+    if config.difficulty == "easy": #level == 1:
+        return random_easy()
+    elif config.difficulty == "medium": #level == 2:
+        return random_medium()
+    else:
+        return random_hard()
 
 def random_easy():
-    print("difficulty is easy")
-    words = [line.strip() for line in open('words.txt') if len(line) > 3 and len(line) <= 5]
+    words = [line.strip() for line in open('words.txt') if len(line) > 4 and len(line) <= 6]
     correct_word = random.choice(words).upper()
     print("Correct word: {}".format(correct_word))
     return correct_word
     
 def random_medium():    
-    print("difficulty is medium")
     words = [line.strip() for line in open('words.txt') if len(line) > 6 and len(line) <= 10 and len(set(line)) >= 4]
     correct_word = random.choice(words).upper()
     print("Correct word: {}".format(correct_word))
     return correct_word
     
 def random_hard():
-    print("difficulty is hard")
     words = [line.strip() for line in open('words.txt') if len(line) > 10 and len(set(line)) >= 6]
     correct_word = random.choice(words).upper()
     print("Correct Word: {}".format(correct_word)) # Debug
@@ -48,8 +51,7 @@ def random_hard():
 
 class Game(db.Model):
     pk = db.Column(db.Integer, primary_key=True, default=random_pk)
-    word = db.Column(db.String(50), default=random.choice([random_medium, random_easy, random_hard]))
-    #difficulty = db.Column(db.String(50))
+    word = db.Column(db.String(50), default=choose_word)
     tried = db.Column(db.String(50), default='')
     player = db.Column(db.String(50))
     try_again = 0
@@ -161,10 +163,21 @@ def solo():
 def mp():
         return flask.render_template('multi.html')
 
-@app.route('/spplay')
+@app.route('/spplay', methods=['GET', 'POST'])
 def new_game():
     player = flask.request.args.get('player')
-    #difficulty = flask.request.args.get('difficulty')
+    print("player name: {}".format(player)) # Debug
+    
+    if request.method == 'POST':
+        if request.form.get("easy") == "Easy":
+            #print("easy mode received") # Debug
+            config.difficulty = 'easy'
+        elif request.form.get("medium") == "Medium":
+            #print("medium mode received") # Debug
+            config.difficulty = 'medium'
+        elif request.form.get("hard") == "Hard":
+            #print("hard mode received") # Debug
+            config.difficulty = 'hard'
     game = Game(player)
     db.session.add(game)
     db.session.commit()
@@ -192,8 +205,6 @@ def play(game_id):
 
 
 # Main
-
 if __name__ == '__main__':
-    random.seed()
     app.run(host='0.0.0.0', debug=True)
 
