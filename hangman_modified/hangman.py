@@ -9,7 +9,7 @@ import time
 
 app = flask.Flask(__name__)
 
-# Database
+## Database
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hangman.db'
 db = SQLAlchemy(app)
