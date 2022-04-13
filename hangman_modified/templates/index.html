@@ -46,7 +46,7 @@
       }
 
       body{
-    background-image: url('http://i.stack.imgur.com/kx8MT.gif');
+    background-image: url("../static/purple.jpg");
     background-size: cover;
     }
   </style>
@@ -68,7 +68,7 @@
         </div>
       </div>
       <br>
-      <img src="{{url_for('static', filename='target.png')}}" width="600" height="70">
+      <img src="{{url_for('static', filename='title.png')}}" width="600" height="120">
       <div class="row vspace">
         <div class="col-md-6 col-md-offset-3">
           {% block content %}{% endblock %}
