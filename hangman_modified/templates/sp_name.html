@@ -1,15 +1,11 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <form action="{{ url_for('new_game') }}" class="form-inline" method="post">
+  <form action="{{ url_for('new_game') }}" class="form-inline">
     <div class="form-group vspace">
       <input name="player" class="input-lg" required="required"
              placeholder="Your Name">
-	  <h3 style="color: white;">Select Difficulty</h3>
-    	<input type="submit" class="btn btn-primary btn-lg" name="easy" value="Easy">
-    	<input type="submit" class="btn btn-primary btn-lg" name="medium" value="Medium">
-    	<input type="submit" class="btn btn-primary btn-lg" name="hard" value="Hard">
-		<!-- <button class="btn btn-primary btn-lg" type="submit">Play!</button> -->
+	  <button class="btn btn-primary btn-lg" type="submit">Play!</button>
     </div>
   </form>
 
@@ -18,7 +14,7 @@
     <table class="table" style="background-color: #292929;">
       <thead>
         <tr style="color: white;">
-          <th>#</th>
+          <th># sp_name</th>
           <th>Player</th>
           <th>Word</th>
           <th>Errors</th>

@@ -34,10 +34,10 @@
       {% if game.won %} You won! {% else %} You lost :-( {% endif %}
     </h3>
     <p>
-      <a class="btn btn-default" href="{{ url_for('solo') }}">Home</a>
+      <a class="btn btn-default" href="{{ url_for('solo') }}">Change Difficulty</a>
       <a class="btn btn-primary"
          href="{{ url_for('new_game') }}?player={{ game.player }}">
-        Play again
+        Play Again
       </a>
     </p>
   {% else %}
