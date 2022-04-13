@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <form action="{{ url_for('new_game') }}" class="form-inline">
+  <form action="{{ url_for('new_game') }}" class="form-check">
     <div class="form-group vspace">
       <input name="player" class="input-lg" required="required"
              placeholder="Your Name">
@@ -14,7 +14,7 @@
     <table class="table" style="background-color: #292929;">
       <thead>
         <tr style="color: white;">
-          <th># sp_name</th>
+          <th>#</th>
           <th>Player</th>
           <th>Word</th>
           <th>Errors</th>

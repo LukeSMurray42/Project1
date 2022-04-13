@@ -21,11 +21,9 @@ def random_pk():
     return random.randint(1e9, 1e10)
 
 def choose_word():
-    #level = random.randint(1,3)
-    #print("current difficulty: {}".format(config.difficulty))
-    if config.difficulty == "easy": #level == 1:
+    if config.difficulty == "easy":
         return random_easy()
-    elif config.difficulty == "medium": #level == 2:
+    elif config.difficulty == "medium":
         return random_medium()
     else:
         return random_hard()
@@ -33,13 +31,13 @@ def choose_word():
 def random_easy():
     words = [line.strip() for line in open('words.txt') if len(line) > 4 and len(line) <= 6]
     correct_word = random.choice(words).upper()
-    print("Correct word: {}".format(correct_word))
+    print("Correct word: {}".format(correct_word)) # Debug
     return correct_word
     
 def random_medium():    
     words = [line.strip() for line in open('words.txt') if len(line) > 6 and len(line) <= 10 and len(set(line)) >= 4]
     correct_word = random.choice(words).upper()
-    print("Correct word: {}".format(correct_word))
+    print("Correct word: {}".format(correct_word)) # Debug
     return correct_word
     
 def random_hard():
@@ -56,6 +54,7 @@ class Game(db.Model):
     player = db.Column(db.String(50))
     try_again = 0
     words_guessed = []
+    config.guessword_score = 0
 
     def __init__(self, player):
         self.player = player
@@ -72,8 +71,8 @@ class Game(db.Model):
     def points(self):
         return 100 + 2*len(set(self.word)) + len(self.word) - 10*len(self.errors)
 
+    
     # Play
-
     def try_letter(self, letter):
         #print("letter found: {}".format(letter)) # Debug
         if not self.finished and letter not in self.tried:
@@ -95,8 +94,12 @@ class Game(db.Model):
                 for i in range(len(self.word)):
                     #print("Iteration {}: {}".format(i, self.word[i])) # Debug
                     self.tried += self.word[i]
+                
+                seen = set()
+                config.guessword_score = len(self.word) - len([x for x in self.tried if x in seen or seen.add(x)])
                 db.session.commit()
                 #print("word correct") # Debug
+                #print(config.guessword_score) # Debug
             
             else:
                 self.words_guessed.append(guess)
