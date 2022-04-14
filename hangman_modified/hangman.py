@@ -59,9 +59,11 @@ class Game(db.Model):
     def __init__(self, player):
         self.player = player
 
+    # MODIFICATION - Errors now show on screen in the order they were entered
     @property
     def errors(self):
-        return ''.join(set(self.tried) - set(self.word))
+        errorletters = [x for x in list(dict.fromkeys(self.tried).keys()) if x not in list(dict.fromkeys(self.word).keys())]
+        return ''.join(errorletters)
 
     @property
     def current(self):
@@ -172,13 +174,13 @@ def spdif():
     
     if request.method == 'POST':
         if request.form.get("easy") == "Easy":
-            print("easy mode received") # Debug
+            #print("easy mode received") # Debug
             config.difficulty = 'easy'
         elif request.form.get("medium") == "Medium":
-            print("medium mode received") # Debug
+            #print("medium mode received") # Debug
             config.difficulty = 'medium'
         elif request.form.get("hard") == "Hard":
-            print("hard mode received") # Debug
+            #print("hard mode received") # Debug
             config.difficulty = 'hard'
 
     return flask.render_template('sp_name.html', games=games)
@@ -186,7 +188,7 @@ def spdif():
 @app.route('/spplay', methods=['GET', 'POST'])
 def new_game():
     player = flask.request.args.get('player')
-    print("player name: {}".format(player)) # Debug
+    #print("player name: {}".format(player)) # Debug
     game = Game(player)
     db.session.add(game)
     db.session.commit()
