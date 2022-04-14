@@ -69,7 +69,9 @@ class Game(db.Model):
 
     @property
     def points(self):
-        return 100 + 2*len(set(self.word)) + len(self.word) - 10*len(self.errors)
+        score = 100 + 2*len(set(self.word)) + len(self.word) - 10*len(self.errors)
+        #print(score) # Debug
+        return score
 
     
     # Play
@@ -87,7 +89,7 @@ class Game(db.Model):
     # Guess the word feature (modification)
     def try_word(self, guess):
         # print("word found: {}".format(guess)) # Debug
-        if not self.finished and guess not in self.words_guessed:
+        if not self.finished and guess not in self.words_guessed and len(guess) == len(self.current):
             self.try_again = 0
 
             if guess == self.word:
