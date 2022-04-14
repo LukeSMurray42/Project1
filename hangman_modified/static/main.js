@@ -3,7 +3,8 @@
 
 $('#letter-form').submit(function(e) {
   var data = $("#letter-form").serialize();
-  
+  var dif = $(difficulty).serialize();
+
   /* Empty input */
   $('#letter-form input').val('');
   
@@ -21,9 +22,16 @@ $('#letter-form').submit(function(e) {
         $('#current').text(data.current);
         
         /* Update errors */
-        $('#errors').html(
-          'Errors (' + data.errors.length + '/6): ' +
-          '<span class="text-danger spaced">' + data.errors + '</span>');
+        if (dif == 'hard') {
+			$('#errors').html(
+          	'Errors (' + data.errors.length + '/10): ' +
+          	'<span class="text-danger spaced" style="color: orangered;">' + data.errors + '</span>');
+		}
+		else {
+			$('#errors').html(
+          	'Errors (' + data.errors.length + '/6): ' +
+          	'<span class="text-danger spaced" style="color: orangered;">' + data.errors + '</span>');
+		}
           
         /* Update drawing */
         updateDrawing(data.errors);
