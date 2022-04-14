@@ -128,7 +128,10 @@ class Game(db.Model):
 
     @property
     def lost(self):
-        return len(self.errors) == 6
+        if config.difficulty == "hard":
+            return len(self.errors) == 6
+        else:
+            return len(self.errors) == 10
 
     @property
     def finished(self):
@@ -211,7 +214,7 @@ def play(game_id):
                              errors=game.errors,
                              finished=game.finished)
     else:
-        return flask.render_template('play.html', game=game)
+        return flask.render_template('play.html', game=game, difficulty=config.difficulty)
 
 @app.route('/multi_player')
 def mp():

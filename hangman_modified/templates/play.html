@@ -2,17 +2,23 @@
 
 {% block content %}
 
-
-
   <svg width="250" height="230" id="drawing">
     <!-- Structure -->
-    <line y1="220" y2="220" x1="10" x2="120" stroke="white"/>
-    <line y1="10" y2="220" x1="65" x2="65" stroke="white"/>
-    <line y1="10" y2="10" x1="65" x2="175" stroke="white"/>
-    <line y1="10" y2="40" x1="175" x2="175" stroke="white"/>
+	{% if difficulty == "hard" %}
+	  <line y1="220" y2="220" x1="10" x2="120" stroke="white"/>
+      <line y1="10" y2="220" x1="65" x2="65" stroke="white"/>
+      <line y1="10" y2="10" x1="65" x2="175" stroke="white"/>
+      <line y1="10" y2="40" x1="175" x2="175" stroke="white"/>
+	{% endif %}
 
     <!-- Hangman -->
     <g id="hangman-drawing">
+	{% if difficulty != "hard" %}
+	  <line y1="220" y2="220" x1="10" x2="120" stroke="white"/>
+      <line y1="10" y2="220" x1="65" x2="65" stroke="white"/>
+      <line y1="10" y2="10" x1="65" x2="175" stroke="white"/>
+      <line y1="10" y2="40" x1="175" x2="175" stroke="white"/>
+	{% endif %}
       <circle cx="175" cy="55" r="15" stroke="white"/>
       <ellipse cx="175" cy="115" rx="20" ry="45" stroke="white"/>
       <line y1="150" y2="190" x1="162" x2="140" stroke="white"/>
@@ -51,7 +57,7 @@
   {% endif %}
 
     <h2 class="vspace" id="errors" style="color: white;">
-      Errors ({{ game.errors|length }}/6):
+		Errors ({{ game.errors|length }}{% if difficulty == "hard" %}/6{% else %}/10{% endif %}):
       <span class="text-danger spaced" style="color: orangered;">{{ game.errors }}</span>
     </h2>
 
