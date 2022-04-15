@@ -4,9 +4,9 @@
 
   <svg width="250" height="230" id="drawing">
     <!-- Structure -->
-	{% if difficulty == "hard" %}
 	  <line y1="220" y2="220" x1="10" x2="120" stroke="white"/>
       <line y1="10" y2="220" x1="65" x2="65" stroke="white"/>
+	{% if difficulty == "hard" %}
       <line y1="10" y2="10" x1="65" x2="175" stroke="white"/>
       <line y1="10" y2="40" x1="175" x2="175" stroke="white"/>
 	{% endif %}
@@ -14,8 +14,6 @@
     <!-- Hangman -->
     <g id="hangman-drawing">
 	{% if difficulty != "hard" %}
-	  <line y1="220" y2="220" x1="10" x2="120" stroke="white"/>
-      <line y1="10" y2="220" x1="65" x2="65" stroke="white"/>
       <line y1="10" y2="10" x1="65" x2="175" stroke="white"/>
       <line y1="10" y2="40" x1="175" x2="175" stroke="white"/>
 	{% endif %}
@@ -27,6 +25,10 @@
       <line y1="80" y2="40" x1="188" x2="210" stroke="white"/>
     </g>
   </svg>
+
+  <!-- <div class="timer">
+	<p id="time" style="color: white; font: bold;"></p>
+  </div> -->
 
   {% if game.finished %}
     <h1>
@@ -57,20 +59,20 @@
   {% endif %}
 
     <h2 class="vspace" id="errors" style="color: white;">
-		Errors ({{ game.errors|length }}{% if difficulty == "hard" %}/6{% else %}/10{% endif %}):
+		Errors ({{ game.errors|length }}{% if difficulty == "hard" %}/6{% else %}/8{% endif %}):
       <span class="text-danger spaced" style="color: orangered;">{{ game.errors }}</span>
     </h2>
 
   {% if not game.finished %}
     <form method="post" id="letter-form" class="form-inline vspace">
-      <small>Guess a letter: </small>
+      <small style="color: white;">Guess Letter: </small>
       <div class="form-group">
         <input class="input-lg text-uppercase" maxlength="1" size="any"
                name="letter" autocomplete="off" autofocus >
       </div>
       <button type="submit" class="btn btn-default btn-lg">Try letter</button>
       <br>
-      <small>Guess the word: </small>
+      <small style="color: white;">Guess Word: </small>
       <div class="form-group">
 			  <input class="input-lg text-uppercase" maxlength="{{ game.current|length }}" size="any"
                name="word_guess" autocomplete="off" autofocus>
@@ -85,4 +87,20 @@
   <script>
     updateDrawing('{{ game.errors }}');
   </script>
+
+  <!-- <script src="{{ url_for('static', filename='timer.js') }}"}></script>
+  {% if difficulty == "hard" %}
+  	<script>
+		var Seconds = 120;
+  	</script>
+  {% elif difficulty == "medium" %}
+  	<script>
+		var Seconds = 180;
+	</script>
+  {% else %}
+	<script>
+		var Seconds = 240;
+	</script>
+	{% endif %} -->
+
 {% endblock %}

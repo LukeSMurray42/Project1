@@ -16,6 +16,7 @@
 	  	  position: absolute;
 	  	  bottom: 50px;
 	  	  right: 10px;
+        size: 75px;
 	  }
 
 	  audio::-webkit-media-controls-panel {
@@ -49,6 +50,55 @@
     background-image: url("../static/purple.jpg");
     background-size: cover;
     }
+
+    audio::-webkit-media-controls-panel {
+      background-color: #56AEFF;
+      }
+
+      body{
+        background-image: url("../static/purple.jpg"); 
+        background-size: cover;
+        overflow: auto;
+      }
+      
+	    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content */
+      .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      /* The Close Button */
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
   </style>
     <title>Hangman Game Group 9</title>
 
@@ -57,6 +107,10 @@
           href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet"
           href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
   </head>
   <body>
     <div class="container text-center">
@@ -85,6 +139,55 @@
     {% block bottom %}{% endblock %}
   </body>
 
+  <!-- Trigger/Open The Modal -->
+  <div class="menu, button" id="btnb" cursor="pointer;" style="position:absolute; top: 1.3%; left: 5.2%; width: 35%;"><img src="{{ url_for('static', filename='help.png') }}" width="10%"></div>
+
+  <!-- The Modal -->
+  <div id="modalst" class="modal" style="color: white;">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="background-color: #323232;">
+      <h2 style="text-align: center;">Welcome to Hangman!</h2>
+      <h3>How to Play?</ih3>
+      <h5>Enter either letters or an entire word to guess the random word.</h5>
+      <h5>Want more info? Access the user manual <a href="https://unisydneyedu-my.sharepoint.com/:w:/g/personal/lmur8721_uni_sydney_edu_au/ERQ0gzrCR4dGn6NdpATI300BcQzzEN8Y_6udktcm48hMVA?e=JO8X3d" style="color: aqua;" target="_blank">here</a> or the full group report <a href="https://unisydneyedu-my.sharepoint.com/:w:/g/personal/lmur8721_uni_sydney_edu_au/ERQ0gzrCR4dGn6NdpATI300BcQzzEN8Y_6udktcm48hMVA?e=JO8X3d" style="color: aqua;" target="_blank">here</a>.</h5>
+      <div>
+        <span class="close">
+          <button type="button" class="bclose" style="width: 120px;">
+            OK
+          </button>
+        </span>
+        <small>Hangman Ver. 0.5 by Group 9 2022. </small>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script>
+    // Get the modal
+    var modal = document.getElementById("modalst");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("btnb");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (OK), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    var getmoreinfo = document.getElementById("link");
+    </script>
+
+  <br>
   <footer role="contentinfo" id="footer">
     <div id="footer">
       <div class="bg pt-8 text-center border-t border-gray-700">
@@ -93,10 +196,5 @@
     </div>
 
   </footer>
-  <div class="menu" style="position:absolute; top: 1.2%; left: 0.7%; width: 12%;">
-    <a href="{{ url_for('main_menu') }}"><img class="gdButton" src="{{ url_for('static', filename='main.png') }}" width="30%"></a>
-  </div>
-  <div class="menu" style="position:absolute; top: 1.2%; left: 5.2%; width: 12%;">
-    <a href="{{ url_for('main_menu') }}"><img class="gdButton" src="{{ url_for('static', filename='help.png') }}" width="30%"></a>
-  </div>
+
 </html>

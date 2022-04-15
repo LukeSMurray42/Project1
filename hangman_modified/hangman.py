@@ -52,7 +52,6 @@ class Game(db.Model):
     word = db.Column(db.String(50), default=choose_word)
     tried = db.Column(db.String(50), default='')
     player = db.Column(db.String(50))
-    try_again = 0
     words_guessed = []
     config.guessword_score = 0
 
@@ -68,32 +67,27 @@ class Game(db.Model):
     @property
     def current(self):
         return ''.join([c if c in self.tried else '_' for c in self.word])
-
+    
+    # MODIFICATION - New Scoring System
     @property
     def points(self):
-        score = 100 + 2*len(set(self.word)) + len(self.word) - 10*len(self.errors)
-        #print(score) # Debug
+        uncommon_letters = ["F", "H", "J", "K", "Q", "V", "W", "X", "Y", "Z"]
+        score = 100 + 2*len(set(self.word)) + len(self.word) + len([x for x in self.word if x in uncommon_letters]) - 10*len(self.errors)
         return score
-
     
     # Play
     def try_letter(self, letter):
         #print("letter found: {}".format(letter)) # Debug
         if not self.finished and letter not in self.tried:
             self.tried += letter
-            self.try_again = 0
-            db.session.commit()
-        else:
-            self.try_again = 1
-            db.session.commit()
+        
+        db.session.commit()
 
 
     # Guess the word feature (modification)
     def try_word(self, guess):
         # print("word found: {}".format(guess)) # Debug
         if not self.finished and guess not in self.words_guessed and len(guess) == len(self.current):
-            self.try_again = 0
-
             if guess == self.word:
                 for i in range(len(self.word)):
                     #print("Iteration {}: {}".format(i, self.word[i])) # Debug
@@ -101,7 +95,6 @@ class Game(db.Model):
                 
                 seen = set()
                 config.guessword_score = len(self.word) - len([x for x in self.tried if x in seen or seen.add(x)])
-                db.session.commit()
                 #print("word correct") # Debug
                 #print(config.guessword_score) # Debug
             
@@ -112,12 +105,8 @@ class Game(db.Model):
                     if n.isnumeric():
                         word_errors += 1
                 self.tried += str(word_errors)
-                db.session.commit()
                 #print("word incorrect (error {})".format(word_errors)) #debug
-
-        else:
-            self.try_again = 1
-            db.session.commit()
+        db.session.commit()
 
     
     # Game status
@@ -131,30 +120,11 @@ class Game(db.Model):
         if config.difficulty == "hard":
             return len(self.errors) == 6
         else:
-            return len(self.errors) == 10
+            return len(self.errors) == 8
 
     @property
     def finished(self):
         return self.won or self.lost
-
-'''
-    @property
-    def timer(self):
-        if 
-        return self.timer
-
-        def countdown(t):
-            while t:
-                mins, secs = divmod(t, 60)
-                timer = '{:02d}:{:02d}'.format(mins, secs)
-                print(timer, end="\r")
-                yield timer
-                time.sleep(1)
-                T = -1
-                return timer
-'''
-
-
 
 
 # Controller

@@ -12,6 +12,7 @@ $('#letter-form').submit(function(e) {
     type: "POST",
     url: '',
     data: data,
+	dif: dif,
     success: function(data) {
       /* Refresh if finished */
       if (data.finished) {
@@ -24,7 +25,7 @@ $('#letter-form').submit(function(e) {
         /* Update errors */
         if (dif == 'hard') {
 			$('#errors').html(
-          	'Errors (' + data.errors.length + '/10): ' +
+          	'Errors (' + data.errors.length + '/8): ' +
           	'<span class="text-danger spaced" style="color: orangered;">' + data.errors + '</span>');
 		}
 		else {
@@ -32,7 +33,8 @@ $('#letter-form').submit(function(e) {
           	'Errors (' + data.errors.length + '/6): ' +
           	'<span class="text-danger spaced" style="color: orangered;">' + data.errors + '</span>');
 		}
-          
+		
+        
         /* Update drawing */
         updateDrawing(data.errors);
       }

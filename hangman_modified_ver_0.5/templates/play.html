@@ -1,0 +1,82 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+
+  <svg width="250" height="230" id="drawing">
+    <!-- Structure -->
+    <line y1="220" y2="220" x1="10" x2="120" stroke="white"/>
+    <line y1="10" y2="220" x1="65" x2="65" stroke="white"/>
+ss
+  </svg>
+
+
+  <div class="timer">
+    <p id="time" style="color: white; font: bold;"></p>
+  </div>
+
+
+  {% if game.finished %}
+    <h1>
+      {% for letter in game.word %}
+        <span class="text-{% if letter in game.tried %}success{% else %}danger{% endif %}" style="color: lime;">
+          {{ letter }}
+        </span>
+      {% endfor %}
+    </h1>
+    <h3 style="color: aqua;">
+      {% if game.won %} You won! {% else %} You lost :-( {% endif %}
+    </h3>
+
+	<!-- Display score on screen (Modification) -->
+	<h4 style="color: aqua;">
+	  {% if game.won %} Score: {{ game.points }} {% endif %}
+	</h4>
+
+    <p>
+      <a class="btn btn-default" href="{{ url_for('solo') }}">Change Difficulty</a>
+      <a class="btn btn-primary"
+         href="{{ url_for('new_game') }}?player={{ game.player }}">
+        Play Again
+      </a>
+    </p>
+  {% else %}
+    <h1 id="current" class="spaced" style="color: white;">{{ game.current }}</h1>
+  {% endif %}
+
+    <h2 class="vspace" id="errors" style="color: white;">
+      Errors ({{ game.errors|length }}/6):
+      <span class="text-danger spaced" style="color: orangered;">{{ game.errors }}</span>
+    </h2>
+
+  {% if not game.finished %}
+    <form method="post" id="letter-form" class="form-inline vspace">
+      <small style="color: white;">Guess a letter: </small>
+      <div class="form-group">
+        <input class="input-lg text-uppercase" maxlength="1" size="any"
+               name="letter" autocomplete="off" autofocus style="align-self: center;" { box-sizing: border-box }>
+      </div>
+      <button type="submit" class="btn btn-default btn-lg" size="160 px">Try letter</button>
+      <br>
+      <small style="color: white;">Guess the word: </small>
+      <div class="form-group">
+			  <input class="input-lg text-uppercase" maxlength="{{ game.current|length }}" size="any"
+               name="word_guess" autocomplete="off" autofocus>
+      </div>
+      <button type="submit" class="btn btn-default btn-lg">Try word</button>
+    </form>
+  {% endif %}
+{% endblock %}
+
+{% block bottom %}
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+  <script>
+    updateDrawing('{{ game.errors }}');
+  </script>
+
+<script src="/static/timer.js"></script>
+<script>
+  var Seconds = 1500;
+</script>
+{% endblock %}
