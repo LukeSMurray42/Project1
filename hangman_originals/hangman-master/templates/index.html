@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Hangman game</title>
+	<title>Hangman game</title> <!-- Title found on tab -->
 
     <!-- Bootstrap -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='main.css') }}">
+		  href="{{ url_for('static', filename='main.css') }}"> <!-- Styling imported from main.css in static directory -->
   </head>
   <body>
     <div class="container text-center">
-      <h1>Hangman game</h1>
+		  <h1>Hangman game</h1> <!-- Title displayed on Screen -->
       <div class="row vspace">
         <div class="col-md-6 col-md-offset-3">
           {% block content %}{% endblock %}
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='jquery.min.js') }}"></script> <!-- Initialises JS programs -->
     <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
 
     {% block bottom %}{% endblock %}
