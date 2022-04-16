@@ -1,14 +1,18 @@
 import random
-from threading import Timer
-from webbrowser import get
 import config
-
 import flask
 from flask import Flask, render_template, url_for, request, redirect, send_file
 from flask_sqlalchemy import SQLAlchemy
-import time
 
 app = flask.Flask(__name__)
+
+# Compiling into executable
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 # Database
 
