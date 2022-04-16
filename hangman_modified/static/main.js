@@ -23,7 +23,7 @@ $('#letter-form').submit(function(e) {
         $('#current').text(data.current);
         
         /* Update errors */
-        if (dif == 'hard') {
+        if (dif != 'hard') {
 			$('#errors').html(
           	'Errors (' + data.errors.length + '/8): ' +
           	'<span class="text-danger spaced" style="color: orangered;">' + data.errors + '</span>');
