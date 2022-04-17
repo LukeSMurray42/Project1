@@ -7,12 +7,19 @@ from flask_sqlalchemy import SQLAlchemy
 app = flask.Flask(__name__)
 
 # Compiling into executable
-def resource_path(relative_path):
+"""def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+    return os.path.join(base_path, relative_path)"""
+
+def base_path(path):
+    if getattr(sys, 'frozen', None):
+        basedir = sys._MEIPASS
+    else:
+        basedir = os.path.dirname(__file__)
+    return os.path.join(basedir, path)
 
 # Database
 
