@@ -3,6 +3,7 @@ import config
 import flask
 from flask import Flask, render_template, url_for, request, redirect, send_file
 from flask_sqlalchemy import SQLAlchemy
+import os, sys
 
 app = flask.Flask(__name__)
 
@@ -13,13 +14,14 @@ app = flask.Flask(__name__)
     except Exception:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)"""
-
+"""
 def base_path(path):
     if getattr(sys, 'frozen', None):
         basedir = sys._MEIPASS
     else:
         basedir = os.path.dirname(__file__)
     return os.path.join(basedir, path)
+"""
 
 # Database
 
