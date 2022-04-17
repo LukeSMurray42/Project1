@@ -9,13 +9,6 @@ import webbrowser
 app = flask.Flask(__name__)
 
 # Compiling into executable
-"""def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
-"""
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
