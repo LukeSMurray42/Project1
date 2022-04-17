@@ -9,11 +9,19 @@ import webbrowser
 app = flask.Flask(__name__)
 
 # Compiling into executable
-def resource_path(relative_path):
+"""def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+"""
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.environ.get("_MEIPASS2",os.path.abspath("."))
+
     return os.path.join(base_path, relative_path)
 
 # Database
@@ -37,19 +45,19 @@ def choose_word():
 
 # If the difficulty chosen is 'easy', then a word with 4-6 letters is chosen (modification)
 def random_easy():
-    words = [line.strip() for line in open('words.txt') if len(line) > 4 and len(line) <= 6]
+    words = [line.strip() for line in open(resource_path("words.txt")) if len(line) > 4 and len(line) <= 6]
     correct_word = random.choice(words).upper()
     return correct_word
 
 # If the difficulty chosen is 'medium', then a word with 6-10 letters with >=4 unique letters is chosen (modification)
 def random_medium():    
-    words = [line.strip() for line in open('words.txt') if len(line) > 6 and len(line) <= 10 and len(set(line)) >= 4]
+    words = [line.strip() for line in open(resource_path("words.txt")) if len(line) > 6 and len(line) <= 10 and len(set(line)) >= 4]
     correct_word = random.choice(words).upper()
     return correct_word
 
 # If the difficulty chosen is 'hard', then a word with >=10 letters with >=6 unique letters is chosen (modification)
 def random_hard():
-    words = [line.strip() for line in open('words.txt') if len(line) > 10 and len(set(line)) >= 6]
+    words = [line.strip() for line in open(resource_path("words.txt")) if len(line) > 10 and len(set(line)) >= 6]
     correct_word = random.choice(words).upper()
     return correct_word
 
