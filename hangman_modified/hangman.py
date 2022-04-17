@@ -4,24 +4,17 @@ import flask
 from flask import Flask, render_template, url_for, request, redirect, send_file
 from flask_sqlalchemy import SQLAlchemy
 import os, sys
+import webbrowser
 
 app = flask.Flask(__name__)
 
 # Compiling into executable
-"""def resource_path(relative_path):
+def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)"""
-"""
-def base_path(path):
-    if getattr(sys, 'frozen', None):
-        basedir = sys._MEIPASS
-    else:
-        basedir = os.path.dirname(__file__)
-    return os.path.join(basedir, path)
-"""
+    return os.path.join(base_path, relative_path)
 
 # Database
 
@@ -202,4 +195,5 @@ def mp():
 
 # Main
 if __name__ == '__main__':
+    webbrowser.open('0.0.0.0:5000')
     app.run(host='0.0.0.0', debug=False) # Main function
